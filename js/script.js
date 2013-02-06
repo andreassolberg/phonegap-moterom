@@ -86,7 +86,7 @@ define(function(require, exports, module) {
 
 	$(document).ready(function() {
 
-		window.plugins.childBrowser.showWebPage('http://www.google.com',{ showLocationBar: true });
+		// window.plugins.childBrowser.showWebPage('http://www.google.com',{ showLocationBar: true });
 
 		var m = new MRController($("div#main"));
 		
