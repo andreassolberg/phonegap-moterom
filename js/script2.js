@@ -24,9 +24,8 @@ define(function(require, exports, module) {
 
 	var runapp = function() {
 
-
-		function loggedin(user) {
-			$("div#main").empty().prepend('<p>Logged in as <strong>' + user.name + '</strong> (<tt>' + user.userid + '</tt>)</p>');
+		var loggedin = function (user) {
+			$("div#out").empty().prepend('<p>Logged in as <strong>' + user.name + '</strong> (<tt>' + user.userid + '</tt>)</p>');
 			var gr = $('<dl></dl>')
 			if(user.groups) {
 				groups = user.groups;
@@ -35,11 +34,33 @@ define(function(require, exports, module) {
 					gr.append('<dd><tt>' + key + '</tt></dd>');
 				}
 			}
-			$("div#main").append('<p>Groups:</p>').append(gr);
+			$("div#out").append('<p>Groups:</p>').append(gr);
 		}
-		UWAP.auth.require(loggedin);
+
+		var notloggedin = function() {
+			$("div#out").empty().append('not logged in');
+		}
+
+		$("#dashboard").on('click', '#req', function(e) {
+			e.preventDefault(); e.stopPropagation();
+			UWAP.auth.require(loggedin);
+		});
+
+		$("#dashboard").on('click', '#check', function(e) {
+			e.preventDefault(); e.stopPropagation();
+			UWAP.auth.check(loggedin, notloggedin);
+		});
+
+		$("#dashboard").on('click', '#logout', function(e) {
+			e.preventDefault(); e.stopPropagation();
+			UWAP.auth.logout();
+		});
+
+		
 
 	}
+
+	runapp();
 
 	document.addEventListener("deviceready", runapp, false);
 

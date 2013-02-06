@@ -11,6 +11,7 @@
 		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 
 		<link href="css/moterom.css"  rel="stylesheet" />
+
 		<script src="phonegap.js"></script>
 		<script src="childbrowser.js"></script>
 		<script type="text/javascript" data-main="script2" src="js/require-phonegap.js"></script>
@@ -24,7 +25,17 @@
 			<div class="etg row-fluid etg4"></div>
 			<div class="etg row-fluid etg3"></div>
 		</div>
-		<div id="modalContainer"></div>
+		<div id="modalContainer" style="display: none"></div>
+
+	
+		<div id="test">
+			<div id="dashboard">
+				<button class="btn" id="req">UWAP.auth.require()</button>
+				<button class="btn" id="check">UWAP.auth.check()</button>
+				<button class="btn" id="logout">logout</button>
+			</div>
+			<div id="out"></div>
+		</div>		
 
 	</body>
 </html>
