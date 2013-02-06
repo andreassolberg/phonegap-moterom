@@ -26,7 +26,14 @@ define(function(require, exports, module) {
 	
 	
 	
-	
+	UWAP.utils.jso_configure({
+		"uwap": {
+			client_id: "app_moterom",
+			authorization: UWAP.utils.getEngineURL('/api/oauth/authorization'),
+			redirect_uri: "https://moterom.uwap.org/_/passiveResponse",
+			passive_redirect_uri: passive_redirect_uri
+		}
+	});
 
 	// if (typeof window.console == "undefined") {
 	//     window.console = {log: function() {}};

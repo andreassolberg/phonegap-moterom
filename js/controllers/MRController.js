@@ -61,7 +61,7 @@ define(function(require, exports, module) {
 //			);
 			
 			UWAP.auth.require(
-					$.proxy(this.processNotLoggedIn, this)
+				$.proxy(this.processNotLoggedIn, this)
 			);
 //			this.processLoggedIn
 			// this.load();
@@ -192,7 +192,13 @@ define(function(require, exports, module) {
 		
 		MRController.prototype.getRoomConfig = function(){
 			var that = this;
-				UWAP.data.get('https://moterom2.uwap.org/config.json', null, function(d){ that.roomConfig = d; if(!(that.data == null)){that.updateData(this.data);}}, function(err){console.log(err);});
+			// UWAP.data.get('https://moterom2.uwap.org/config.json', null, function(d){ that.roomConfig = d; if(!(that.data == null)){that.updateData(this.data);}}, function(err){console.log(err);});
+			$.getJSON('config.json', function(d) {
+				that.roomConfig = d; 
+				if(!(that.data == null)){
+					that.updateData(this.data);
+				}
+			});
 		};
 		
 		MRController.prototype.uuid = function() {
