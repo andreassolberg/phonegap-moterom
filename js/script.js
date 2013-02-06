@@ -30,8 +30,7 @@ define(function(require, exports, module) {
 		"uwap": {
 			client_id: "app_moterom",
 			authorization: UWAP.utils.getEngineURL('/api/oauth/authorization'),
-			redirect_uri: "https://moterom.uwap.org/_/passiveResponse",
-			passive_redirect_uri: passive_redirect_uri
+			redirect_uri: "https://moterom.uwap.org/_/passiveResponse"
 		}
 	});
 
