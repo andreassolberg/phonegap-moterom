@@ -28,9 +28,9 @@ define(function(require, exports, module) {
 	
 	
 
-	if (typeof window.console == "undefined") {
-	    window.console = {log: function() {}};
-	}
+	// if (typeof window.console == "undefined") {
+	//     window.console = {log: function() {}};
+	// }
 
 	/*
 	 * JavaScript Pretty Date
