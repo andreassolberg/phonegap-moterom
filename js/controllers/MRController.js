@@ -60,7 +60,8 @@ define(function(require, exports, module) {
 //				
 //			);
 			
-			UWAP.auth.require(
+			UWAP.auth.check(
+				$.proxy(this.processLoggedIn, this),
 				$.proxy(this.processNotLoggedIn, this)
 			);
 //			this.processLoggedIn
@@ -218,8 +219,8 @@ define(function(require, exports, module) {
 		};
 		MRController.prototype.processNotLoggedIn = function(user) {
 			var that = this;
-			this.user = user;
-			console.log(this.user);
+			// this.user = user;
+			// console.log(this.user);
 			console.log("Not logged in");
 			var device = localStorage.getItem('device');
 
@@ -234,6 +235,7 @@ define(function(require, exports, module) {
 				this.showDeviceInfo(this.device);
 				this.load();
 			} else {
+				console.log("show auth diaglog")
 				this.showAuthDialog();
 			}
 		};
@@ -250,8 +252,10 @@ define(function(require, exports, module) {
 		};
 		MRController.prototype.showAuthDialog = function() {
 			var that = this;
-//			var el = $("#authDialogTmpl").tmpl();
+			console.log("showAuthDialog");
 			var el = $( this.templates['authDialog'].render() );
+
+			$("#modalContainer").show();
 
 			el.on("click", "button.login", function() {
 				UWAP.auth.require(function() {});
