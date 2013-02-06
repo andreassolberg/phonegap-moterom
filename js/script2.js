@@ -60,7 +60,7 @@ define(function(require, exports, module) {
 
 	}
 
-	runapp();
+	// runapp();
 
 	document.addEventListener("deviceready", runapp, false);
 
