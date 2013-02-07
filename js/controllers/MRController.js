@@ -282,10 +282,17 @@ define(function(require, exports, module) {
 			});
 		};
 		MRController.prototype.processLoggedIn = function(user) {
+			var that = this;
 			this.user = user;
 			console.log("Logged in");
 //			var el = $("#authTmpl").tmpl(user);
 			var el = $( this.templates['auth'].render(user) );
+			el.on('click', '#userbutton', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				UWAP.auth.logout();
+				that.processNotLoggedIn();
+			});
 			$("body").append(el);
 
 			this.load();
