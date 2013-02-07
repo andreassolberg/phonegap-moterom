@@ -293,7 +293,7 @@ define(function(require, exports, module) {
 				UWAP.auth.logout();
 				that.processNotLoggedIn();
 			});
-			$("body").append(el);
+			$("#authbar").empty().append(el);
 
 			this.load();
 		};
