@@ -25,6 +25,7 @@ define(function(require, exports, module) {
 	
 	
 	// Needed in order to work as a phonegap app.
+	if(window.plugins && window.plugins.childBrowser == null) {
 		UWAP.utils.jso_configure({
 			"uwap": {
 				client_id: "app_moterom",
@@ -32,6 +33,7 @@ define(function(require, exports, module) {
 				redirect_uri: "https://moterom.uwap.org/_/passiveResponse"
 			}
 		});
+	}
 
 
 
