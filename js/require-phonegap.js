@@ -37,11 +37,11 @@ null);E(c)||(d=c,c=[]);!c.length&&D(d)&&d.length&&(d.toString().replace(ca,"").r
 
 requirejs.config({
 	paths: {
-		'jquery' : 'https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min',
-		'uwap-core' : 'https://core.uwap.org/_',
-		'uwap-core/bootstrap/js/bootstrap': 'https://core.uwap.org/_/bootstrap/js/bootstrap.min',
+		'jquery' : 'uwaplib/jquery/jquery-1.9.1.min',
+		'uwap-core' : 'uwaplib',
+		'uwap-core/bootstrap/js/bootstrap': 'uwaplib/bootstrap/js/bootstrap.min',
 		// 'text'		: 'https://core.uwap.org/_/js/text',
-		'uwap': '/_/js',
+		'uwap': 'uwaplib/js',
 	},
 	//baseUrl: "https://moterom.uwap.org/js",
 	baseUrl: "js",
