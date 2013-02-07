@@ -28,17 +28,9 @@ define(function(require) {
 	/*
 	 * Setup and install the ChildBrowser plugin to Phongap/Cordova.
 	 */
-	if(window.plugins && window.plugins.childBrowser == null) {
+	if(window.isPhonegap) {
 		ChildBrowser.install();
 		console.log("Installing childbrowser...")
-	}
-
-	// window.cxcount = 0;
-
-
-	if(window.plugins && window.plugins.childBrowser) {
-
-		console.log("Install childbrowser");
 
 		// Use ChildBrowser instead of redirecting the main page.
 		// jso.jso_registerRedirectHandler(window.plugins.childBrowser.showWebPage);

@@ -36,9 +36,6 @@ define(function(require, exports, module) {
 	// }
 
 
-
-
-
 	/*
 	 * JavaScript Pretty Date
 	 * Copyright (c) 2011 John Resig (ejohn.org)
