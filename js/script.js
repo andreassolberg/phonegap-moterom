@@ -4,7 +4,6 @@ define(function(require, exports, module) {
 		$ = require('jquery'),
 		UWAP = require('uwap-core/js/core'),
 		moment = require('uwap-core/js/moment'),
-//		moment = require('moment')
 		hogan = require('uwap-core/js/hogan'),
     	prettydate = require('uwap-core/js/pretty')
     	;
@@ -25,18 +24,18 @@ define(function(require, exports, module) {
 	require('uwap-core/bootstrap/js/bootstrap-dropdown');
 	
 	
-	
-	UWAP.utils.jso_configure({
-		"uwap": {
-			client_id: "app_moterom",
-			authorization: UWAP.utils.getEngineURL('/api/oauth/authorization'),
-			redirect_uri: "https://moterom.uwap.org/_/passiveResponse"
-		}
-	});
+	// Needed in order to work as a phonegap app.
+		UWAP.utils.jso_configure({
+			"uwap": {
+				client_id: "app_moterom",
+				authorization: UWAP.utils.getEngineURL('/api/oauth/authorization'),
+				redirect_uri: "https://moterom.uwap.org/_/passiveResponse"
+			}
+		});
 
-	// if (typeof window.console == "undefined") {
-	//     window.console = {log: function() {}};
-	// }
+
+
+
 
 	/*
 	 * JavaScript Pretty Date
@@ -107,9 +106,9 @@ define(function(require, exports, module) {
 		};
 		
 		var routes = {
-				 '/room/:id': groupHandler,
-				 '/device/:id': deviceHandler,
-				 '/devices': devicesHandler
+			'/room/:id': groupHandler,
+			'/device/:id': deviceHandler,
+			'/devices': devicesHandler
 		 };
 
 		var router = Router(routes);

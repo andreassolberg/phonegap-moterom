@@ -6,18 +6,90 @@ define(function(require, exports, module) {
 	var Room = require('models/Room');
 	var hogan = require('uwap-core/js/hogan');
 	
+	require('uwap-core/bootstrap/js/bootstrap-modal');
+	require('uwap-core/bootstrap/js/bootstrap-collapse');
+	require('uwap-core/bootstrap/js/bootstrap-button');
+	require('uwap-core/bootstrap/js/bootstrap-dropdown');
 	
 	var tmpl = {
-		    "authDialog": require('uwap-core/js/text!templates/authDialogTmpl.html'),
-		    "auth": require('uwap-core/js/text!templates/authTmpl.html'),
-		    "deviceInfo":  require('uwap-core/js/text!templates/deviceInfoTmpl.html'),
-		    "event": require('uwap-core/js/text!templates/eventTmpl.html'),
-		    "nowDanger": require('uwap-core/js/text!templates/nowDangerTmpl.html'),
-		    "nowSuccess": require('uwap-core/js/text!templates/nowSuccessTmpl.html'),
-		    "nowWarning": require('uwap-core/js/text!templates/nowWarningTmpl.html'),
-		    "reg": require('uwap-core/js/text!templates/regTmpl.html'),
-		    "room": require('uwap-core/js/text!templates/roomTmpl.html')
+		"authDialog": require('uwap-core/js/text!templates/authDialogTmpl.html'),
+		"auth": require('uwap-core/js/text!templates/authTmpl.html'),
+		"deviceInfo":  require('uwap-core/js/text!templates/deviceInfoTmpl.html'),
+		"event": require('uwap-core/js/text!templates/eventTmpl.html'),
+		"nowDanger": require('uwap-core/js/text!templates/nowDangerTmpl.html'),
+		"nowSuccess": require('uwap-core/js/text!templates/nowSuccessTmpl.html'),
+		"nowWarning": require('uwap-core/js/text!templates/nowWarningTmpl.html'),
+		"reg": require('uwap-core/js/text!templates/regTmpl.html'),
+		"room": require('uwap-core/js/text!templates/roomTmpl.html')
 	};
+
+
+
+
+	// ---------- o ---------- o ---------- o ---------- o ---------- o 
+	// Fix for locking modal.
+	// http://stackoverflow.com/questions/13421750/twitter-bootstrap-jquery-how-to-temporarily-prevent-the-modal-from-being-clo
+	// 
+	// save the original function object
+	var _superModal = $.fn.modal;
+
+	// add locked as a new option
+	$.extend( _superModal.defaults, {
+	    locked: false
+	});
+
+	// create a new constructor
+	var Modal = function(element, options) {
+	    _superModal.Constructor.apply( this, arguments )
+	}
+
+	// extend prototype and add a super function
+	Modal.prototype = $.extend({}, _superModal.Constructor.prototype, {
+	    constructor: Modal
+
+	    , _super: function() {
+	        var args = $.makeArray(arguments)
+	        // call bootstrap core
+	        _superModal.Constructor.prototype[args.shift()].apply(this, args)
+	    }
+
+	    , lock : function() {
+	        this.options.locked = true
+	    }
+
+	    , unlock : function() {
+	        this.options.locked = false
+	    }
+
+	    , hide: function() {
+	        if (this.options.locked) return
+	        this._super('hide')
+	    }
+	});
+
+	// override the old initialization with the new constructor
+	$.fn.modal = $.extend(function(option) {
+	    var args = $.makeArray(arguments),
+	    option = args.shift()
+
+	    // this is executed everytime element.modal() is called
+	    return this.each(function() {
+	        var $this = $(this)
+	        var data = $this.data('modal'),
+	            options = $.extend({}, _superModal.defaults, $this.data(), typeof option == 'object' && option)
+
+	        if (!data) {
+	            $this.data('modal', (data = new Modal(this, options)))
+	        }
+	        if (typeof option == 'string') {
+	            data[option].apply( data, args )
+	        }
+	    });
+	}, $.fn.modal);
+	// ---------- o ---------- o ---------- o ---------- o ---------- o 
+
+
+
 
 	var MRController =  function(el) {
 			var that = this;
@@ -91,7 +163,7 @@ define(function(require, exports, module) {
 				console.log("REGISTER MEETING ON ", room);
 
 //				var element = $("#regTmpl").tmpl();
-				var element = $( this.templates['reg'].render() );
+				var element = $( that.templates['reg'].render() );
 				var times = [15, 30, 45, 60];
 
 
@@ -213,7 +285,7 @@ define(function(require, exports, module) {
 			console.log("Logged in");
 //			var el = $("#authTmpl").tmpl(user);
 			var el = $( this.templates['auth'].render(user) );
-			$("body").prepend(el);
+			$("body").append(el);
 
 			this.load();
 		};
@@ -287,7 +359,7 @@ define(function(require, exports, module) {
 				});
 				return false;
 			});
-			$("div#modalContainer").append(el.modal("show"));
+			$("div#modalContainer").append(el.modal({locked: true}).show());
 		};
 		
 		MRController.prototype.setActiveRoom = function(id) {
@@ -359,15 +431,32 @@ define(function(require, exports, module) {
 			});
 
 			var e, i, el, r;
+
+			console.log("========= o ========= o ========= o ========= o ========= o ");
+			console.log(etg);
 			
 			for(e in etg) {
-				
-				$("div.etg" + e).empty().append('<div class="span2 etghdr">' + e + '. etg</div>');
+				$("div.etg" + e).empty();
+				// $("div.etg" + e).empty().append('<div class="span2 etghdr">' + e + '. etg</div>');
+
+				if (etg[e].length == 3) {
+					// $("div.etg" + e).append('<div class="room empty span1">&nbsp;</div>');
+				}
+
 				for(i = 0; i < etg[e].length; i++) {
 					
-					if (etg[e][i] === null) {
-						el = $('<div class="room empty span5">&nbsp;</div>');
-					} else {
+					// if (etg[e][i] === null) {
+					// 	if (etg[e].length === 1) {
+					// 		el = $('<div class="room empty span10">&nbsp;</div>');
+					// 	} else if(etg[e].length === 2) {
+					// 		el = $('<div class="room empty span5">&nbsp;</div>');
+					// 	} else if(etg[e].length === 3) {
+					// 		el = $('<div class="room empty span5">&nbsp;</div>');
+					// 	} else {
+					// 		el = $('<div class="room empty span5">&nbsp;</div>');
+					// 	}
+						
+					// } else {
 						console.log(etg[e][i]);
 						r = roomdef[etg[e][i]].room;
 						console.log(r);
@@ -388,60 +477,61 @@ define(function(require, exports, module) {
 							//Danger
 							nowEl = $( this.templates['nowDanger'].render(r) );
 						}
-//						var r.isAvailable = r.isAvailable();
-//						var r.isAvailableFor15 = r.isAvailableFor(15);
-//						el = $("#roomTmpl").tmpl(r);
+
+						if (etg[e].length === 3) {
+							if (i === 2) {
+								r.span = 4;
+							} else {
+								r.span = 4;
+							}
+							
+						} else if (etg[e].length === 1) {
+							r.span = 12;
+						} else {
+							r.span = 6;
+						}
+						r.etg = e;
+
 						el = $( this.templates['room'].render(r) );
 						el.attr('room', r.name);
 						console.log(el);
-//						$("div.etg" + e).append(el);
-//						el.find(".roomEvents").append($("#nowTmpl").tmpl(r));
+
+
+
 						el.find(".roomEvents").append(nowEl);
 
 						var now = r.getCurrentEvents();
 						var nexts = r.getNextEvents();
+
 						
-//						console.log(now);
-//						console.log(nexts);
-//						var nowTemp = $("");
-//						var nextsTemp = $('');
 						var nowIter;
 						var nextsIter;
 						$.each(now, function(i,v){
-//							console.log(v);
 							nowIter = that.templates['event'].render(v);
-//							console.log(nowIter);
-//							nowTemp.append(nowIter);
 							el.find(".roomEvents").append(nowIter);
 						});
 						$.each(nexts, function(i,v){
-//							console.log(v);
 							nextsIter = that.templates['event'].render(v);
-//							console.log(nextsIter);
-//							nextsTemp.append(  nextsIter  );
 							el.find(".roomEvents").append(nextsIter);
 							
 						});
-//						var nowTemp = $( this.templates['event'].render(now) );
-//						var nextsTemp = $( this.templates['event'].render(nexts) );
-//						console.log(nowTemp.html());
-//						console.log(nextsTemp.html());
-//						el.find(".roomEvents").append(nowTemp);
-//						el.find(".roomEvents").append(nextsTemp);
-						
+
 
 						if (r.isAvailable()) {
 							el.addClass("available");
 						}
-					}
+					// }
 					$("div.etg" + e).append(el);
 				}
 				
 			}
 			this.updateHeight();
 			
-			$('<div class="room empty span5">&nbsp;</div>').appendTo('.etg5');
-			$("div.room.empty").first().empty().append('<p class="dateclock"><span class="clock">' + moment().format('HH:mm') + '</span> - <span class="date">' + moment().format('dddd, D. MMMM') + '</span></p>');
+			// $('<div class="room empty span5">&nbsp;</div>').appendTo('.etg5');
+			$("div.clock").empty().append(
+				'<p style="text-align: center" class="dateclock"><span class="clock">' + moment().format('HH:mm') + '</span>' +
+				' - ' +
+				'<span class="date">' + moment().format('dddd, D. MMMM') + '</span></p>');
 
 			if (this.mainRoom) {
 				this.setActiveRoom(this.mainRoom);
