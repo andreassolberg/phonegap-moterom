@@ -91,7 +91,7 @@ define(function(require, exports, module) {
 	moment.lang('en');
 
 
-	$(document).ready(function() {
+	var runapp = function() {
 
 		// window.plugins.childBrowser.showWebPage('http://www.google.com',{ showLocationBar: true });
 
@@ -115,6 +115,7 @@ define(function(require, exports, module) {
 
 		var router = Router(routes);
 		router.init();
-	});
+	};
+	document.addEventListener("deviceready", runapp, false);
 
 });

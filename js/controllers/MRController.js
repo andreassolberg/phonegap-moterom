@@ -5,7 +5,8 @@ define(function(require, exports, module) {
 	var moment = require('uwap-core/js/moment');
 	var Room = require('models/Room');
 	var hogan = require('uwap-core/js/hogan');
-	
+
+	require('uwap-core/bootstrap/js/bootstrap');	
 	require('uwap-core/bootstrap/js/bootstrap-modal');
 	require('uwap-core/bootstrap/js/bootstrap-collapse');
 	require('uwap-core/bootstrap/js/bootstrap-button');
