@@ -331,7 +331,11 @@ define(function(require, exports, module) {
 			$("#modalContainer").show();
 
 			el.on("click", "button.login", function() {
-				UWAP.auth.require(function() {});
+				UWAP.auth.require(function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					that.load();
+				});
 			});
 			el.on("click", "button.devicereg", function(event) {
 				var devicename = $(event.currentTarget).closest("form").find("input#devicename").val();
