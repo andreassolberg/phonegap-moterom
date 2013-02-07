@@ -3,7 +3,7 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "no.erlang.moterom1"
         version   = "2.2.0">
-    <name>UNINETT Møterom</name>
+    <name>Møterom</name>
 
     <description>
         Oversikt over UNINETT sine møterom.
