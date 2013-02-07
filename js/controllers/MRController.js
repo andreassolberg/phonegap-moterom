@@ -330,8 +330,8 @@ define(function(require, exports, module) {
 
 			$("#modalContainer").show();
 
-			el.on("click", "button.login", function() {
-				UWAP.auth.require(function(e) {
+			el.on("click", "button.login", function(e) {
+				UWAP.auth.require(function(user) {
 					e.preventDefault();
 					e.stopPropagation();
 					that.load();
