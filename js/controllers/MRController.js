@@ -334,7 +334,7 @@ define(function(require, exports, module) {
 				UWAP.auth.require(function(user) {
 					e.preventDefault();
 					e.stopPropagation();
-					that.load();
+					that.processLoggedIn(user);
 				});
 			});
 			el.on("click", "button.devicereg", function(event) {
