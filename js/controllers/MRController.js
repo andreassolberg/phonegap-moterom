@@ -339,6 +339,7 @@ define(function(require, exports, module) {
 
 			el.on("click", "button.login", function(e) {
 				UWAP.auth.require(function(user) {
+					el.modal('hide').remove();
 					e.preventDefault();
 					e.stopPropagation();
 					that.processLoggedIn(user);
